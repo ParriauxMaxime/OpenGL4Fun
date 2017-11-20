@@ -1,0 +1,4 @@
+*.o
+./OpenGL
+OpenGL
+src/compiling_error.txt
