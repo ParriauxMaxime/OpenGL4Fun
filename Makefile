@@ -8,10 +8,10 @@ LEVEL       ?=  3
 
 COLOR		?=	yes
 
-LIB			=	-l SDL2 -l SDL2_mixer -l pthread
+LIB			=	-l SDL2 -l SDL2_mixer -l pthread -l GL -l GLEW
 
 CXXFLAGS	+=	-Wall -Wextra -O$(LEVEL)
-CXXFLAGS	+=	-ansi -pedantic
+CXXFLAGS	+=	-ansi -pedantic -std=c++11
 
 ifneq ($(DEBUG), no)
 	CXXFLAGS	+=	-g
@@ -27,18 +27,20 @@ ifeq ($(DEBUG), no)
 LDFLAGS		+=	-s
 endif
 
+LANG = LANG=en LC_ALL=en_US.UTF-8
 
 PATH_SRC	=	./src
 
 SRC		+=		$(PATH_SRC)/main.cpp \
-					  $(PATH_SRC)/Engine.cpp
+					 $(PATH_SRC)/Engine.cpp \
+					  $(PATH_SRC)/Scene.cpp \
 
 OBJ     =   $(SRC:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) $(OBJ) -o $(NAME) $(LDFLAGS)
+	$(LANG) $(CXX) $(OBJ) -o $(NAME) $(LDFLAGS)
 
 clean:
 	rm -rf $(OBJ)
@@ -51,4 +53,4 @@ re: fclean all
 run: ./$(NAME)
 
 %.o:    %.cpp
-	$(CXX) -c $(<) -o $(@) $(CXXFLAGS)
+	$(LANG) $(CXX) -c $(<) -o $(@) $(CXXFLAGS)
